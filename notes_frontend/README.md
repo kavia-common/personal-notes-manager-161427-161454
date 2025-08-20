@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Notes Frontend (Next.js)
 
-## Getting Started
+A minimalistic, responsive light-themed frontend for a personal notes manager. Features:
+- User authentication (Sign in / Sign up)
+- Create, edit, delete notes
+- List and search notes
+- Sidebar navigation with main notes/editor area
+- REST API calls to backend (notes_database)
+- Environment variable-based configuration
 
-First, run the development server:
+## Quick Start
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1) Install dependencies:
+   npm install
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2) Configure environment variables:
+   Create a `.env.local` file and set:
+   - NEXT_PUBLIC_API_BASE_URL=<url to notes_database backend>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+See `.env.example` for reference.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3) Run the development server:
+   npm run dev
+   Open http://localhost:3000
 
-## Learn More
+## Environment Variables
 
-To learn more about Next.js, take a look at the following resources:
+- NEXT_PUBLIC_API_BASE_URL: Base URL for the backend notes API, e.g.:
+  https://api.example.com
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## API Expectations
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The frontend expects the backend to expose endpoints:
+- POST /auth/signup { email, password } -> { token, user }
+- POST /auth/login { email, password } -> { token, user }
+- GET /auth/me -> { id, email }
+- GET /notes?q=optional -> Note[]
+- POST /notes { title, content } -> Note
+- PUT /notes/:id { title, content } -> Note
+- DELETE /notes/:id -> 204
 
-## Deploy on Vercel
+Authorization should use `Authorization: Bearer <token>`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Design
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Color scheme:
+- Primary: #2563eb
+- Secondary: #64748b
+- Accent: #f59e42
+
+Layout:
+- Sidebar with navigation (Home, Auth)
+- Main area: notes list + editor
+- Minimalistic light theme
+
+## Build and Export
+
+- Development: npm run dev
+- Production build: npm run build
+- Start: npm run start
+
